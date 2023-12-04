@@ -1,2 +1,2 @@
-# NXTGEN-Prototype
-Mono-repo for dev purposes for alpha network
+# Prototype
+Mono-repo for dev purposes for project-product workflow engineer-platform
