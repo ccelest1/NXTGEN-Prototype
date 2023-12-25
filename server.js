@@ -4,6 +4,13 @@ const app = express()
 
 // set port that will be used to run in development or run locally on 3500
 const PORT = process.env.PORT || 3000
+// import logger
+const { logger } = require('./middleware/logger')
+
+// using logger
+app.use(logger)
+// process json
+app.use(express.json())
 
 /*
     index of web page @ '/'
