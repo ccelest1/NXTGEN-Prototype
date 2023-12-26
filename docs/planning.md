@@ -48,3 +48,5 @@
     * (1) `npm install mongodb` -> (2) `mongodb+srv://crgcelestin:<password>@cluster0.4rz64ge.mongodb.net/?retryWrites=true&w=majority` -> (3) (unsure) created a mongo.js file given code on mongo website
     * installing mongoose
         * (1) `npm i mongoose`
+- started on user models via [User.js](../models/User.js) and outlined a few User stories in [UserStories.md](UserStories.md)
+- going to work on user account page first
