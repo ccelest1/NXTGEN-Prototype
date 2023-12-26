@@ -1,16 +1,24 @@
+require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const app = express()
-
 // set port that will be used to run in development or run locally on 3500
 const PORT = process.env.PORT || 3000
 // import logger
 const { logger } = require('./middleware/logger')
+const eHandler = require('./middleware/eHandler')
+const cookieParser = require('cookie-parser')
+const cors = require('cors')
+const corsOptions = require('./config/corsOptions')
 
+console.log(process.env.NODE_ENV)
 // using logger
 app.use(logger)
 // process json
 app.use(express.json())
+app.unsubscribe(cookieParser())
+// cors w/ options
+app.use(cors(corsOptions))
 
 /*
     index of web page @ '/'
@@ -21,6 +29,10 @@ app.use('/', express.static(path.join(__dirname, '/public')))
     establishing app routes
 */
 app.use('/', require('./routes/root'))
+
+
+// use at end before telling app to listen
+app.use(eHandler)
 
 // tell app to start listening
 app.listen(PORT, () => console.log(` server running on port:${PORT} `))
