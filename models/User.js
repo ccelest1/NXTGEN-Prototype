@@ -11,7 +11,20 @@ const mongoose = require('mongoose')
     1. create a relation to professional_levels
     2. create a relation to engineering_types
     3. create a relation to user_interests
+
+    contemporaries: friends list (bi-directional)
+    network: people you have worked with
+    followers: people following you (uni-directional)
+    following: people you are following (uni-directional)
+    ^ placeholder of [Number] - Number referring to id's of said objects
+
 */
+const user_ProfessionalLevel = new mongoose.Schema({
+
+})
+const user_EngineeringType = new mongoose.Schema({
+
+})
 const userSchema = new mongoose.Schema({
     first: {
         type: String,
@@ -39,7 +52,15 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    description: {
+    background_image: {
+        type: String,
+        required: false
+    },
+    caption: {
+        type: String,
+        required: false,
+    },
+    bio: {
         type: String,
         required: false,
     },
@@ -54,7 +75,24 @@ const userSchema = new mongoose.Schema({
     views: {
         type: Number,
         default: 0
+    },
+    followers: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User'
+    },
+    following: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'User'
+    },
+    projects: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: 0
+    },
+    network: {
+        type: [Number],
+        default: 0
     }
+
 }, { timestamps: true });
 
-module.exports = mongoose.model('User', userSchema)
+export const User = mongoose.model("User", userSchema)

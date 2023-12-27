@@ -23,6 +23,8 @@
 6. [ ] multiple users can collaborate on the same project
 7. [ ] each project has an id, connection to users that are authors/collaborators i.e. project.authors, type, description, is_private boolean, status, created, updated and title, completion_status (relation to statuses table)
     - is_private allows for request process, if is_private is false all users will be able to view post, if is_private is true only approved users (including authors/collaborators) can view project
+8. [ ] users have the ability to CRUD projects
+9. [ ] included is the ability to add/remove collaborators
 
 ### Stretch Goal - Including Posts, Likes, Comments
 8. [ ] Posts, likes, comments are assigned to users

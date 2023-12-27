@@ -50,3 +50,5 @@
         * (1) `npm i mongoose`
 - started on user models via [User.js](../models/User.js) and outlined a few User stories in [UserStories.md](UserStories.md)
 - going to work on user account page first
+
+## TO BE CONSIDERED/IMPLEMENTED
