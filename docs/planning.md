@@ -49,6 +49,15 @@
     * installing mongoose
         * (1) `npm i mongoose`
 - started on user models via [User.js](../models/User.js) and outlined a few User stories in [UserStories.md](UserStories.md)
-- going to work on user account page first
+- going to work on user
 
-## TO BE CONSIDERED/IMPLEMENTED
+## 12.27.23
+
+# __TO BE CONSIDERED/IMPLEMENTED__
+- [ ]
+
+# __QUESTIONS__
+- [ ] Need to iron out user types: do we want to have there to be different accounts for corporate and regular users or just to have more corporate abilities (company associations, etc), corporate routes only accessed via scopes/roles?
+- [ ] How is the timeline of a user's projects going to look like?
+- [ ] How is one's list of experiences going to be visualized?
+- [ ] In the future do we want integration to auto follow based on LinkedIn contacts?
