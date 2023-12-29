@@ -49,12 +49,19 @@
     * installing mongoose
         * (1) `npm i mongoose`
 - started on user models via [User.js](../models/User.js) and outlined a few User stories in [UserStories.md](UserStories.md)
-- going to work on user
+- going to work on user schema
 
-## 12.27.23
+## 12.28.23
+* performed work on models, further adding desired scaffolding
+* adding an auto-increment id using an offset of 100
+    * guide recommended using `npm i mongoose-sequence`
+    * searched up diff between using mdb objectid and an integer: [stackoverflow post](https://stackoverflow.com/questions/14054384/is-it-bad-to-change-id-type-in-mongodb-to-integer/14058189#14058189)
+        - going to use mongoose-sequence for projects
 
 # __TO BE CONSIDERED/IMPLEMENTED__
-- [ ]
+- [ ] Patenting/preventing intellectual theft on site
+    * project redundancy detection
+- [ ] suggestion and recommendation engine based on interests/user activity
 
 # __QUESTIONS__
 - [ ] Need to iron out user types: do we want to have there to be different accounts for corporate and regular users or just to have more corporate abilities (company associations, etc), corporate routes only accessed via scopes/roles?

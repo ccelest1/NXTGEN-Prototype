@@ -1,5 +1,7 @@
-import mongoose from "mongoose"
+const { Schema, model } = require('mongoose')
 const userSchema = require('./User')
+const AutoIncrement = required('mongoose-sequence')(mongoose)
+
 // establishing project model
 /*
     require id, connection to users that are authors/collaborators i.e. project.authors, type, description, is_private boolean, status, created, updated and title, completion_status (relation to statuses table)
@@ -9,22 +11,48 @@ const userSchema = require('./User')
 
     Need to figure out project types in order to determine how each will look visually
 */
-const projectType = new mongoose.Schema({
+/*
+const projectStatus = new Schema({
 
 })
-const projectSchema = new mongoose.Schema({
+const projectType = new Schema({
+
+})
+*/
+const projectSchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        default: null
+    },
     owner: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
+        required: true,
         ref: 'User'
     },
     collaborators: {
-        type: [userSchema],
-        default: 1  //need this to be defaulted to the user who is creating project i.e owner
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
+        default: null  //need this to be defaulted to the user who is creating project i.e owner
     },
     // if private project
     requests: {
-        type: [userSchema],
+        type: [Schema.Types.ObjectId],
+        ref: 'User',
+        default: null
+    },
+},
+    {
+        timestamps: true
     }
+)
+projectSchema.plugin(AutoIncrement, {
+    inc_field: 'project',
+    id: 'project_nums',
+    start_seq: 100
 })
 
-export const Project = mongoose.model("Project", projectSchema)
+export const Project = model("Project", projectSchema)
