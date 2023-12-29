@@ -31,6 +31,7 @@ app.use('/', express.static(path.join(__dirname, '/public')))
     establishing app routes
 */
 app.use('/', require('./routes/root'))
+app.use('/users', require('./routes/userRoutes'))
 
 // handle all processes, including pages that aren't found or requests that are not handled properly
 app.all('*', (req, res) => {

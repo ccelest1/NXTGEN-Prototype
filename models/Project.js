@@ -33,17 +33,17 @@ const projectSchema = new Schema({
         required: true,
         ref: 'User'
     },
-    collaborators: {
-        type: [Schema.Types.ObjectId],
+    collaborators: [{
+        type: Schema.Types.ObjectId,
         ref: 'User',
         default: null  //need this to be defaulted to the user who is creating project i.e owner
-    },
+    }],
     // if private project
-    requests: {
-        type: [Schema.Types.ObjectId],
+    requests: [{
+        type: Schema.Types.ObjectId,
         ref: 'User',
         default: null
-    },
+    }],
 },
     {
         timestamps: true

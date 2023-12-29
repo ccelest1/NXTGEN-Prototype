@@ -57,6 +57,11 @@
     * guide recommended using `npm i mongoose-sequence`
     * searched up diff between using mdb objectid and an integer: [stackoverflow post](https://stackoverflow.com/questions/14054384/is-it-bad-to-change-id-type-in-mongodb-to-integer/14058189#14058189)
         - going to use mongoose-sequence for projects
+* wanted to understand how to perform join like operations: [using populate](https://mongoosejs.com/docs/populate.html#populate-virtuals)
+    - experimenting with interests, projects, user_activities (testing ref with enum, ref w/o enum)
+
+* (jwt branch)
+    - ran `npm i express-async-handler bcrypt`
 
 # __TO BE CONSIDERED/IMPLEMENTED__
 - [ ] Patenting/preventing intellectual theft on site

@@ -1,5 +1,5 @@
 // const mongoose = require('mongoose')
-const { Schema, model } = require('mongoose')
+const { Schema, model, default: mongoose } = require('mongoose')
 
 // establishing user model
 /*
@@ -39,18 +39,28 @@ const user_EngineeringType = new Schema({
 })
 */
 // testing references
-const Interests = new Schema({
+const InterestsSchema = new Schema({
     name: {
         type: String,
         enum: ['software', 'hardware'],
         default: 'software'
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 const userActivitiesSchema = new Schema({
-    type: String,
-    required: false
+    name: {
+        type: String,
+        required: false
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
-const userSchema = new Schema({
+const UserSchema = new Schema({
     first: {
         type: String,
         required: true
@@ -102,35 +112,66 @@ const userSchema = new Schema({
         type: Number,
         default: 0
     },
-    followers: {
-        type: [Schema.Types.ObjectId],
-        ref: 'User'
-    },
-    following: {
-        type: [Schema.Types.ObjectId],
-        ref: 'User'
-    },
-    projects: [{
+    followers: [{
         type: Schema.Types.ObjectId,
-        ref: 'Project'
+        ref: 'User'
     }],
+    following: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    }],
+    // projects: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Project'
+    // }],
     is_corporate: {
         type: Boolean,
         default: false
     },
-    user_interests: {
-        type: [Interests]
-    },
+    // user_interests: {
+    //     type: [Interests]
+    // },
     last_login: {
         type: Date,
         default: Date.now
     },
-    user_activities: [{
-        type: Schema.Types.ObjectId,
-        ref: 'UserActivities'
-    }],
+    // user_activities: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'UserActivities'
+    // }],
 
+}, {
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 }, { timestamps: true });
 
-export const User = model("User", userSchema)
-export const userActivities = model('UserActivities', userActivitiesSchema)
+UserSchema.virtual('projects', {
+    ref: 'Project',
+    localField: '_id',
+    foreignField: 'owner'
+}
+    // const owner = await User.findOne().populate('projects');
+    // owner.projects;
+)
+
+UserSchema.virtual('interests', {
+    ref: 'Interests',
+    localField: '_id',
+    foreignField: 'user'
+}
+    // const user = await User.findOne().populate('interests');
+    // user.interests;
+)
+
+UserSchema.virtual('user_activities', {
+    ref: 'User_Activities',
+    localField: '_id',
+    foreignField: 'user'
+}
+    // const owner = await User.findOne().populate('user_activities');
+    // user.user_activities
+)
+
+export const User = model("User", UserSchema, 'User')
+export const userActivities = model('User_Activities', userActivitiesSchema, 'User_Activities')
+export const Interests = model('Interests', InterestsSchema, 'Interests')
