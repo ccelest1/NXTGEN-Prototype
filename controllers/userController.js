@@ -2,7 +2,7 @@ const User = require('../models/User')
 const Project = require('../models/Project')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
-const { default: lastDayOfDecade } = require('date-fns/fp/lastDayOfDecade/index')
+// const { default: lastDayOfDecade } = require('date-fns/fp/lastDayOfDecade/index')
 
 /*
     @desc - get all users
@@ -149,7 +149,7 @@ const delete_user = asyncHandler(async (req, res) => {
         })
     }
     const deleted_user = await user.deleteOne()
-    const deletion_reply = `Username ${deleted_user.username} with ID ${deleted_user.id}`
+    const deletion_reply = `SUCCESS: Username ${deleted_user.username} with ID ${deleted_user.id} has been deleted!`
     res.json(deletion_reply)
 })
 

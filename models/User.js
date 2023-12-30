@@ -1,6 +1,5 @@
-// const mongoose = require('mongoose')
-const { Schema, model, default: mongoose } = require('mongoose')
-
+const { Schema, model, } = require('mongoose')
+const mongoose = require('mongoose')
 // establishing user model
 /*
     is_active: allows us to show user status at given point or time
@@ -147,6 +146,7 @@ const UserSchema = new Schema({
     toObject: { virtuals: true }
 }, { timestamps: true });
 
+
 UserSchema.virtual('projects', {
     ref: 'Project',
     localField: '_id',
@@ -174,6 +174,7 @@ UserSchema.virtual('user_activities', {
     // user.user_activities
 )
 
-export const User = model("User", UserSchema, 'User')
-export const userActivities = model('User_Activities', userActivitiesSchema, 'User_Activities')
-export const Interests = model('Interests', InterestsSchema, 'Interests')
+const User = model("User", UserSchema, 'User')
+const userActivities = model('User_Activities', userActivitiesSchema, 'User_Activities')
+const Interests = model('Interests', InterestsSchema, 'Interests')
+module.exports = { User, userActivities, Interests }

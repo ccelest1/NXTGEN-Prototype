@@ -1,6 +1,7 @@
 const { Schema, model } = require('mongoose')
 const userSchema = require('./User')
-const AutoIncrement = required('mongoose-sequence')(mongoose)
+const mongoose = require('mongoose')
+const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 // establishing project model
 /*
@@ -55,4 +56,5 @@ projectSchema.plugin(AutoIncrement, {
     start_seq: 100
 })
 
-export const Project = model("Project", projectSchema)
+const Project = model("Project", projectSchema)
+module.exports = { Project }
