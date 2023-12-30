@@ -1,5 +1,5 @@
-const { Schema, model, } = require('mongoose')
 const mongoose = require('mongoose')
+const { Schema, model } = require('mongoose')
 // establishing user model
 /*
     is_active: allows us to show user status at given point or time
@@ -174,7 +174,10 @@ UserSchema.virtual('user_activities', {
     // user.user_activities
 )
 
-const User = model("User", UserSchema, 'User')
-const userActivities = model('User_Activities', userActivitiesSchema, 'User_Activities')
-const Interests = model('Interests', InterestsSchema, 'Interests')
-module.exports = { User, userActivities, Interests }
+
+
+const User = model("User", UserSchema, "User");
+const UserActivities = model("UserActivities", userActivitiesSchema);
+const Interests = model("Interests", InterestsSchema, "Interests");
+
+module.exports = { User, UserActivities, Interests }

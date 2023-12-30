@@ -1,4 +1,4 @@
-const User = require('../models/User')
+const { User, User_Activities, Interests } = require('../models/User')
 const Project = require('../models/Project')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
@@ -10,8 +10,10 @@ const bcrypt = require('bcrypt')
     @access private
 */
 const get_all_users = asyncHandler(async (req, res) => {
+    // do not send password back
     const users = await User.find().select('-password').lean()
-    if (!users) {
+    // optional chaining, check if users exists
+    if (!users?.length) {
         return res.status(400).json({
             message: 'ERROR: No users found in DB'
         })
@@ -24,10 +26,12 @@ const get_all_users = asyncHandler(async (req, res) => {
     @router - post/ user
     @access private
 */
+// want to add a check for spaces in input for any fields
+// invalid types in fields, i.e. no integers in first, last, require passwords with more variety (idk)
 const create_new_user = asyncHandler(async (req, res) => {
     const { first, last, username, email, password, roles, active } = req.body
     // confirm date
-    if (!username || !password || !Array.isArray(roles) || !roles.length) {
+    if (!first || !last || !username || !email || !password || !Array.isArray(roles) || !roles.length) {
         return res.status(400).json({
             message: 'ERROR: Post method requires all fields'
         })
@@ -37,12 +41,17 @@ const create_new_user = asyncHandler(async (req, res) => {
     const duplicate = await User.findOne({
         $or: [
             { username: username },
-            { $or: [{ first, last }] },
             { email: email }
         ]
     }).lean().exec();
-    if (duplicate) {
-        return res.status(409).json({ message: 'ERROR: A Duplicate Account has been Found' })
+    if (username === duplicate?.username) {
+        return res.status(409).json({
+            message: `ERROR: Account with username: ${duplicate.username} already exists. Please choose a different username.`
+        })
+    } else if (email === duplicate?.email) {
+        return res.status(409).json({
+            message: `ERROR: Account with email: ${duplicate.email} already exists. Please choose a different email.`
+        })
     }
     // add 10 salt rounds
     const hashedPassword = await bcrypt.hash(password, 10)
@@ -52,12 +61,13 @@ const create_new_user = asyncHandler(async (req, res) => {
     // create, store new user
     const user = await User.create(userObject)
     if (user) {
+        console.log(user)
         res.status(201).json({
-            message: `SUCCESS: User : ${username} has been created`
+            message: `SUCCESS: User : ${username} has been created.`
         })
     } else {
         res.status(400).json({
-            message: ` ERROR: ! Invalid User Data ! -> User ${username} could not be created `
+            message: ` ERROR: ! Invalid User Data ! -> User ${username} could not be created.`
         })
     }
 })
@@ -71,13 +81,13 @@ const update_user = asyncHandler(async (req, res) => {
     const { id, first, last, username, email, password, roles, active } = req.body
     if (!id || !first || !last || !username || !email || !Array.isArray(roles) || !roles.length || !typeof active == 'boolean') {
         return res.status(400).json({
-            message: 'ERROR! All fields are required'
+            message: 'ERROR! All fields are required.'
         })
     }
     const user = await User.findById(id).lean().exec()
     if (!user) {
         return res.status(400).json({
-            message: `ERROR: User ${username} not found`
+            message: `ERROR: User ${username} not found.`
         })
     }
     const duplicate = await User.findOne({ username }).lean().exec()
@@ -86,15 +96,18 @@ const update_user = asyncHandler(async (req, res) => {
     const duplicate_alt = await User.findOne({
         $or: [
             { username: username },
-            { $or: [{ first, last }] },
             { email: email }
         ]
     }).lean().exec();
     // allow updates to original user
     // avoid changing account that exists and is not the current user requesting updates
-    if (duplicate && duplicate?._id.toString() !== id) {
+    if (username === duplicate_alt?.username && duplicate?._id.toString() !== id) {
         return res.status(409).json({
-            message: `ERROR: Duplicate username of ${username}`
+            message: `ERROR: Account with username:${old_username} already exists. Please choose a different username.`
+        })
+    } else if (email === duplicate_alt?.email && duplicate?._id.toString() !== id) {
+        return res.status(409).json({
+            message: `ERROR: Account with email:${duplicate_alt.email}} already exists. Please choose a different email.`
         })
     }
     user.first = first
@@ -110,11 +123,11 @@ const update_user = asyncHandler(async (req, res) => {
     const updatedUser = await user.save()
     if (username != old_username) {
         res.json({
-            message: `SUCCESS: User ${old_username} has been updated to ${updatedUser.username} with additional changes`
+            message: `SUCCESS: User ${old_username} has been updated to ${updatedUser.username} with additional changes.`
         })
     } else {
         res.json({
-            message: `SUCCESS: User ${updatedUser.username} has been updated`
+            message: `SUCCESS: User ${updatedUser.username} has been updated.`
         })
     }
 
@@ -145,7 +158,7 @@ const delete_user = asyncHandler(async (req, res) => {
     const user = await User.findById(id).exec()
     if (!user) {
         return res.status(400).json({
-            message: `ERROR: User ${username} was not found`
+            message: `ERROR: User ${username} was not found.`
         })
     }
     const deleted_user = await user.deleteOne()

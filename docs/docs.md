@@ -63,6 +63,18 @@
 * (jwt branch)
     - ran `npm i express-async-handler bcrypt`
 
+## 12.30.23
+- initialized all user routes,
+- [x] get all works
+- [x] Post User Endpoint
+    * ![Post-Users1](PostUser-Postman.png)
+    * ![Post-Users2](PostUser-Console.png)
+    * got back duplicate error when entering info that has already appeared in db
+    * got back error of post method req all fields when not supplying all fields for post response
+        - FIXED ERROR HANDLING (duplicate username, email when posting a new user)
+- Update User
+    *
+
 # __TO BE CONSIDERED/IMPLEMENTED__
 - [ ] Patenting/preventing intellectual theft on site
     * project redundancy detection
