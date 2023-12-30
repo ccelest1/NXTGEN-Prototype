@@ -72,9 +72,9 @@
     * got back duplicate error when entering info that has already appeared in db
     * got back error of post method req all fields when not supplying all fields for post response
         - FIXED ERROR HANDLING (duplicate username, email when posting a new user)
-- Update User
+- [x] Update User
     * cleaned up error, believe there is one additional catch that I can find
-- Deleted User
+- [x] Deleted User
     * updated to tutorial standards
 
 # __TO BE CONSIDERED/IMPLEMENTED__
