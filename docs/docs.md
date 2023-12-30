@@ -1,4 +1,4 @@
-# Frontend Setup, Wireframes
+# Development Journal
 
 ## Setup and Steps
 ### As it relates to Dependencies
