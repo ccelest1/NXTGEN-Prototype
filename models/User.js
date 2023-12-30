@@ -104,7 +104,7 @@ const UserSchema = new Schema({
         enum: ['regular-user', 'admin'],
         default: 'regular-user'
     }],
-    is_active: {
+    active: {
         type: Boolean,
         default: true
     },
@@ -114,11 +114,13 @@ const UserSchema = new Schema({
     },
     followers: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: 0
     }],
     following: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: 0
     }],
     // projects: [{
     //     type: Schema.Types.ObjectId,
