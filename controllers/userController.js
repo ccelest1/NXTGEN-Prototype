@@ -1,7 +1,8 @@
 const { User, User_Activities, Interests } = require('../models/User')
-const Project = require('../models/Project')
+const { Project } = require('../models/Project')
 const asyncHandler = require('express-async-handler')
 const bcrypt = require('bcrypt')
+const mongoose = require('mongoose')
 // const { default: lastDayOfDecade } = require('date-fns/fp/lastDayOfDecade/index')
 
 /*
@@ -77,39 +78,58 @@ const create_new_user = asyncHandler(async (req, res) => {
     @router - patch/ user
     @access private
 */
+/*
+    check possibility of user not being found
+    check for duplicates, create new user and try to change to username of previous user
+*/
 const update_user = asyncHandler(async (req, res) => {
     const { id, first, last, username, email, password, roles, active } = req.body
-    if (!id || !first || !last || !username || !email || !Array.isArray(roles) || !roles.length || !typeof active == 'boolean') {
+    if (!id || !first || !last || !username || !email || !Array.isArray(roles) || !roles.length || !active || !typeof active == 'boolean') {
         return res.status(400).json({
             message: 'ERROR! All fields are required.'
         })
     }
-    const user = await User.findById(id).lean().exec()
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({
+            message: `no user found with id:${id}`
+        })
+    }
+    const user = await User.findById(id).exec()
     if (!user) {
         return res.status(400).json({
-            message: `ERROR: User ${username} not found.`
+            message: `ERROR: User not found.`
         })
     }
-    const duplicate = await User.findOne({ username }).lean().exec()
-    const old_username = duplicate.username
-    // attempting to test how to check for existing users based on several conditions - may not work
-    const duplicate_alt = await User.findOne({
-        $or: [
-            { username: username },
-            { email: email }
-        ]
-    }).lean().exec();
+
+    const duplicateUsername = await User.findOne({ username }).lean().exec()
+    const duplicateEmail = await User.findOne({ email }).lean().exec()
     // allow updates to original user
     // avoid changing account that exists and is not the current user requesting updates
-    if (username === duplicate_alt?.username && duplicate?._id.toString() !== id) {
+    if (duplicateUsername && duplicateUsername?._id.toString() !== id) {
         return res.status(409).json({
-            message: `ERROR: Account with username:${old_username} already exists. Please choose a different username.`
-        })
-    } else if (email === duplicate_alt?.email && duplicate?._id.toString() !== id) {
-        return res.status(409).json({
-            message: `ERROR: Account with email:${duplicate_alt.email}} already exists. Please choose a different email.`
+            message: `ERROR: Account with username: ${duplicateUsername.username} already exists. Please choose a different username.`
         })
     }
+    if (duplicateEmail && duplicateEmail?._id.toString() !== id) {
+        return res.status(409).json({
+            message: `ERROR: Account with email: ${duplicateEmail.email} already exists. Please choose a different email.`
+        })
+    }
+    // need to implement routes that test if a user doesn't update any information
+    // an if no changes were made route
+    /*
+    if (duplicateUsername && duplicateUsername?._id.toString() === id && ) {
+        return res.status(409).json({
+            message: `ERROR: Your desired username change: ${duplicateUsername.username} is the same as your existing one`
+        })
+    }
+
+    if (duplicateEmail && duplicateEmail?._id.toString() === id) {
+        return res.status(409).json({
+            message: `ERROR: Your desired username change; ${duplicateEmail.email} is the same as your existing one`
+        })
+    }
+    */
     user.first = first
     user.last = last
     user.username = username
@@ -120,14 +140,15 @@ const update_user = asyncHandler(async (req, res) => {
     if (password) {
         user.password = await bcrypt.hash(password, 10)
     }
+    console.log(user)
     const updatedUser = await user.save()
-    if (username != old_username) {
+    if (duplicateUsername && username !== duplicateUsername.username) {
         res.json({
-            message: `SUCCESS: User ${old_username} has been updated to ${updatedUser.username} with additional changes.`
+            message: `SUCCESS! Username updated to ${updatedUser.username} with any additional changes.`
         })
     } else {
         res.json({
-            message: `SUCCESS: User ${updatedUser.username} has been updated.`
+            message: `SUCCESS! User: ${updatedUser.username} has been updated.`
         })
     }
 
@@ -145,12 +166,17 @@ const delete_user = asyncHandler(async (req, res) => {
             message: 'ERROR: User ID is Required'
         })
     }
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).json({
+            message: `no user found with id: ${id}`
+        })
+    }
     // do not want to delete user if notes assigned
-    const projects = await Project.findOne({
+    const project = await Project.findOne({
         user: id
     }).lean().exec()
     // if corresponding projects to user
-    if (projects?.length) {
+    if (project) {
         return res.status(400).json({
             message: `ERROR: User ${username} has projects!`
         })
@@ -162,7 +188,7 @@ const delete_user = asyncHandler(async (req, res) => {
         })
     }
     const deleted_user = await user.deleteOne()
-    const deletion_reply = `SUCCESS: Username ${deleted_user.username} with ID ${deleted_user.id} has been deleted!`
+    const deletion_reply = `SUCCESS: Username ${username} with ID ${id} has been deleted!`
     res.json(deletion_reply)
 })
 

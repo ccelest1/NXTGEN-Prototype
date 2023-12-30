@@ -146,7 +146,6 @@ const UserSchema = new Schema({
     toObject: { virtuals: true }
 }, { timestamps: true });
 
-
 UserSchema.virtual('projects', {
     ref: 'Project',
     localField: '_id',

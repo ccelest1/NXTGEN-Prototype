@@ -56,5 +56,5 @@ projectSchema.plugin(AutoIncrement, {
     start_seq: 100
 })
 
-const Project = model("Project", projectSchema)
-module.exports = { Project }
+const Project = model("Project", projectSchema, "Project");
+module.exports = { Project };

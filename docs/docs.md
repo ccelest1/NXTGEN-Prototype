@@ -73,7 +73,9 @@
     * got back error of post method req all fields when not supplying all fields for post response
         - FIXED ERROR HANDLING (duplicate username, email when posting a new user)
 - Update User
-    *
+    * cleaned up error, believe there is one additional catch that I can find
+- Deleted User
+    * updated to tutorial standards
 
 # __TO BE CONSIDERED/IMPLEMENTED__
 - [ ] Patenting/preventing intellectual theft on site
