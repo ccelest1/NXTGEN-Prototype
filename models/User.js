@@ -147,7 +147,7 @@ const UserSchema = new Schema({
 }, { timestamps: true });
 
 UserSchema.virtual('projects', {
-    ref: 'Project',
+    ref: "Project",
     localField: '_id',
     foreignField: 'owner'
 }

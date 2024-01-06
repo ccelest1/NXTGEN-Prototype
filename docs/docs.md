@@ -77,6 +77,10 @@
 - Deleted User
     * updated to tutorial standards
 
+## 01.02.23
+* (Notes on fsPromise)
+    - fsPromises module provides async file methods for promise returns, such as readFile [ returns promise that becomes resolved with file contents ], writeFile (vice-versa)
+
 # __TO BE CONSIDERED/IMPLEMENTED__
 - [ ] Patenting/preventing intellectual theft on site
     * project redundancy detection

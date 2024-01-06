@@ -12,7 +12,7 @@ const mongoose = require('mongoose')
 */
 const get_all_users = asyncHandler(async (req, res) => {
     // do not send password back
-    const users = await User.find().select('-password').lean()
+    const users = await User.find().select('-password').lean().populate('projects')
     // optional chaining, check if users exists
     if (!users?.length) {
         return res.status(400).json({
@@ -30,7 +30,7 @@ const get_all_users = asyncHandler(async (req, res) => {
 // want to add a check for spaces in input for any fields
 // invalid types in fields, i.e. no integers in first, last, require passwords with more variety (idk)
 const create_new_user = asyncHandler(async (req, res) => {
-    const { first, last, username, email, password, roles, active } = req.body
+    const { first, last, username, email, password, profile_photo, background_image, caption, bio, views, roles, active } = req.body
     // confirm date
     if (!first || !last || !username || !email || !password || !Array.isArray(roles) || !roles.length) {
         return res.status(400).json({
