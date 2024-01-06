@@ -30,7 +30,7 @@ const get_all_users = asyncHandler(async (req, res) => {
 // want to add a check for spaces in input for any fields
 // invalid types in fields, i.e. no integers in first, last, require passwords with more variety (idk)
 const create_new_user = asyncHandler(async (req, res) => {
-    const { first, last, username, email, password, profile_photo, background_image, caption, bio, views, roles, active } = req.body
+    const { first, last, username, email, password, profile_photo, background_image, caption, bio, roles, active } = req.body
     // confirm date
     if (!first || !last || !username || !email || !password || !Array.isArray(roles) || !roles.length) {
         return res.status(400).json({
@@ -57,7 +57,7 @@ const create_new_user = asyncHandler(async (req, res) => {
     // add 10 salt rounds
     const hashedPassword = await bcrypt.hash(password, 10)
 
-    const userObject = { first, last, username, email, 'password': hashedPassword, roles, active }
+    const userObject = { first, last, username, email, 'password': hashedPassword, roles, active, profile_photo, background_image, caption, bio }
 
     // create, store new user
     const user = await User.create(userObject)
@@ -83,8 +83,8 @@ const create_new_user = asyncHandler(async (req, res) => {
     check for duplicates, create new user and try to change to username of previous user
 */
 const update_user = asyncHandler(async (req, res) => {
-    const { id, first, last, username, email, password, roles, active } = req.body
-    if (!id || !first || !last || !username || !email || !Array.isArray(roles) || !roles.length || !active || !typeof active == 'boolean') {
+    const { id, first, last, username, email, password, profile_photo, background_image, caption, bio, roles, active } = req.body = req.body
+    if (!id || !first || !last || !username || !email || !profile_photo || !background_image || !caption || !bio || !Array.isArray(roles) || !roles.length || !active || !typeof active == 'boolean') {
         return res.status(400).json({
             message: 'ERROR! All fields are required.'
         })
@@ -117,25 +117,28 @@ const update_user = asyncHandler(async (req, res) => {
     }
     // need to implement routes that test if a user doesn't update any information
     // an if no changes were made route
-    /*
-    if (duplicateUsername && duplicateUsername?._id.toString() === id && ) {
-        return res.status(409).json({
-            message: `ERROR: Your desired username change: ${duplicateUsername.username} is the same as your existing one`
+
+    const fields_to_change = [first, last, username, email, password, profile_photo, background_image, caption, bio, roles, active]
+
+    const detect_changes = fields_to_change.some(field => field !== undefined)
+
+    if (!detect_changes) {
+        return res.json({
+            message: `No updates were made for current user`
         })
     }
 
-    if (duplicateEmail && duplicateEmail?._id.toString() === id) {
-        return res.status(409).json({
-            message: `ERROR: Your desired username change; ${duplicateEmail.email} is the same as your existing one`
-        })
-    }
-    */
     user.first = first
     user.last = last
     user.username = username
     user.email = email
+    user.profile_photo = profile_photo
+    user.background_image = background_image
+    user.caption = caption
+    user.bio = bio
     user.roles = roles
     user.active = active
+
     // rehash new password if necessary
     if (password) {
         user.password = await bcrypt.hash(password, 10)
@@ -192,9 +195,18 @@ const delete_user = asyncHandler(async (req, res) => {
     res.json(deletion_reply)
 })
 
+/**
+   ! just for testing purposes / delete /all_users !
+ */
+const delete_all_users = asyncHandler(async (req, res) => {
+    User.collection.drop();
+    const dropped_db = `Dropped users`
+    res.json(dropped_db)
+})
 module.exports = {
     get_all_users,
     create_new_user,
     update_user,
-    delete_user
+    delete_user,
+    delete_all_users
 }

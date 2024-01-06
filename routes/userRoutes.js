@@ -8,4 +8,14 @@ router.route("/")
     .patch(usersController.update_user)
     .delete(usersController.delete_user)
 
+
+router.route("/delete_all")
+    .delete(usersController.delete_all_users)
 module.exports = router
+
+
+
+/*
+    second route accessed via
+    http://localhost:3000/users/delete_all
+ */

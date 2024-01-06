@@ -77,9 +77,13 @@
 - [x] Deleted User
     * updated to tutorial standards
 
-## 01.02.23
-* (Notes on fsPromise)
-    - fsPromises module provides async file methods for promise returns, such as readFile [ returns promise that becomes resolved with file contents ], writeFile (vice-versa)
+## 01.06.23
+- updated user model
+    * ![Updated](updated_user.png)
+- implemented delete all_users for testing using this source [branching routes](https://medium.com/codeconnective/how-to-setup-multiple-api-routes-with-node-express-12b7cabcd13c)
+
+- created two new branches being react-aria and stylex
+    * starting in react aria for now
 
 # __TO BE CONSIDERED/IMPLEMENTED__
 - [ ] Patenting/preventing intellectual theft on site
@@ -91,3 +95,9 @@
 - [ ] How is the timeline of a user's projects going to look like?
 - [ ] How is one's list of experiences going to be visualized?
 - [ ] In the future do we want integration to auto follow based on LinkedIn contacts?
+
+
+# MISC
+## 01.02.23
+* (Notes on fsPromise)
+    - fsPromises module provides async file methods for promise returns, such as readFile [ returns promise that becomes resolved with file contents ], writeFile (vice-versa)
