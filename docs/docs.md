@@ -84,6 +84,13 @@
 
 - created two new branches being react-aria and stylex
     * starting in react aria for now
+    * TO-DO: Implement user login + auth -> user profile page
+        - SCOPE: Sample welcome -> login -> profile page
+
+- used chakraui in past, so maybe i should just default to that to make fe easier -> will follow tutorial and adjust
+
+## 01.07.23
+- ran `yarn add @adobe/react-spectrum` for flex comps
 
 # __TO BE CONSIDERED/IMPLEMENTED__
 - [ ] Patenting/preventing intellectual theft on site

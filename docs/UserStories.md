@@ -39,3 +39,9 @@
 ## Metrics
 - [ ] implementation of helpful analytical metric system providing platform insights
 - [ ] add suggestions based on user interests, professional level, type of engineer
+
+## Pages
+- [ ] Add a public facing page
+    * idea is to have page with globe on left, middle [ log in on top, sign up on bottom], news/highlights on right
+    * contact info on bottom?
+- provide welcome page following login

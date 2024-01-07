@@ -8,7 +8,7 @@
 
 html {
     font-family: 'Rubik', sans-serif;
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 body {
@@ -25,13 +25,14 @@ h1 {
     font-size: 2rem;
 }
 
-h-2 {
+h2 {
     font-family: 'Graduate', serif;
     font-size: 0.25rem;
 }
 
 #error404 {
     font-family: 'Press Start 2P', cursive;
+    font-size: 1.5rem;
 }
 
 container {
