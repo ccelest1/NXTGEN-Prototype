@@ -1,4 +1,4 @@
-# User Stories for PROTOTYPE
+# PROTOTYPE PROGRESS
 
 0. Users have id, username, email, first, last, updated_at, created_at, is_active, password, description, profile_photo, last_logged_in - timestamp that allows be to know when and frequency of usage
     - a. users have will have an association to a table containing their professional level (professional_level via user.id)
