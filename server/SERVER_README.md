@@ -1,2 +1,2 @@
 # Description
-BackEnd Side for Prototype App
+BE for Prototype App
