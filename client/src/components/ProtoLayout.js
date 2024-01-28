@@ -1,13 +1,13 @@
 import { Outlet } from 'react-router-dom'
 
-const DashLayout = () => {
+const ProtoLayout = () => {
     return (
         <>
-            <div className='dash-container'>
+            <div className='proto-container'>
                 <Outlet />
             </div>
         </>
     )
 }
 
-export default DashLayout
+export default ProtoLayout
