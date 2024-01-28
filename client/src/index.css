@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Graduate&family=Gravitas+One&family=Press+Start+2P&family=Rubik:wght@300&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.dash-container {
+  padding: 0.75em 0.5em 0.5em;
+  flex-grow: 1;
+}
+
+h3 {
+  font-family: 'Rubik', sans-serif;
+  font-size: 1.5rem;
+}
+
+h1 {
+  font-family: 'Gravitas One', serif;
+  font-size: 2rem;
+}
+
+h2 {
+  font-family: 'Graduate', serif;
+  font-size: 0.25rem;
+}
+
+.public,
+.welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.public {
+  padding: 1em;
+  flex-grow: 1;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.public__main,
+.login {
+  flex-grow: 1;
+  border-top: 2px solid var(--BORDER-COLOR);
+  border-bottom: 2px solid var(--BORDER-COLOR);
+  padding: 1em 0;
+}
+
+.public__addr {
+  margin-top: 1em;
+}
