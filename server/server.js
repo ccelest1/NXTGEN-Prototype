@@ -1,3 +1,4 @@
+// load env vars from .env file
 require('dotenv').config()
 const express = require('express')
 const path = require('path')
@@ -5,14 +6,13 @@ const app = express()
 // set port that will be used to run in development or run locally on 3500
 const PORT = process.env.PORT || 3000
 // import logger
-const { logger, logEvents } = require('./server/middleware/logger')
-const eHandler = require('./server/middleware/eHandler')
+const { logger, logEvents } = require('./middleware/logger')
+const eHandler = require('./middleware/eHandler')
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
-const corsOptions = require('./server/config/corsOptions')
-const connectDB = require('./server/config/dbConn')
+const corsOptions = require('./config/corsOptions')
+const connectDB = require('./config/dbConn')
 const mongoose = require('mongoose')
-console.log(process.env.NODE_ENV)
 connectDB()
 
 app.use(logger)
@@ -30,8 +30,8 @@ app.use('/', express.static(path.join(__dirname, '/public')))
 /*
     establishing app routes
 */
-app.use('/', require('./server/routes/root'))
-app.use('/users', require('./server/routes/userRoutes'))
+app.use('/', require('./routes/root'))
+app.use('/users', require('./routes/userRoutes'))
 
 // handle all processes, including pages that aren't found or requests that are not handled properly
 app.all('*', (req, res) => {
